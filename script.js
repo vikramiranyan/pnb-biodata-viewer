@@ -1,17 +1,10 @@
 let data = []
-
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQoD4Qaf0dFYHPHpgrxtAVwxhPH8rptiZJCYoNbrvSNxgbID63bJcrXALvtzkdDApDIXIklfL1Xvll6/pub?output=csv"
-
 async function loadData(){
-
 const res = await fetch(sheetURL)
-
 const text = await res.text()
-
 const rows = text.trim().split("\n").map(r=>r.split(","))
-
 const headers = rows[0]
-
 data = rows.slice(1).map(r=>{
 return{
 Zone:r[0],
@@ -24,9 +17,7 @@ GRADE:r[6],
 DESIGNATION_NAME:r[7]
 }
 })
-
 render(data)
-
 }
 
 function render(list){
