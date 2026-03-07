@@ -69,6 +69,21 @@ PNB Biodata Viewer
 <div class="searchbox">
 <input id="search" placeholder="Search Employee ID / Name">
 <button onclick="search()">Search</button>
+
+<br><br>
+
+<select id="zoneFilter" onchange="applyFilters()">
+<option value="">All Zones</option>
+</select>
+
+<select id="circleFilter" onchange="applyFilters()">
+<option value="">All Circles</option>
+</select>
+
+<select id="locationFilter" onchange="applyFilters()">
+<option value="">All Locations</option>
+</select>
+
 </div>
 <table id="table">
 <thead>
