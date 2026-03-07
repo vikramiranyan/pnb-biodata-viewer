@@ -18,13 +18,13 @@ tbody.innerHTML=""
 list.forEach(e=>{
 let tr = document.createElement("tr")
 tr.innerHTML=`
-<td>${e.EmplID}</td>
-<td>${e.Empl_Name}</td>
+<td>${e.EMPLID}</td>
+<td>${e.NAME}</td>
 <td>${e.Zone}</td>
 <td>${e.Circle}</td>
-<td>${e.Grade}</td>
+<td>${e.GRADE}</td>
 <td>
-<button onclick="viewPDF('${e.EmplID}')">
+<button onclick="viewPDF('${e.EMPLID}')">
 View
 </button>
 </td>
@@ -34,8 +34,8 @@ tbody.appendChild(tr)
 function search(){
 let v = document.getElementById("search").value.toLowerCase()
 let filtered = data.filter(e=>
-e.EmplID.includes(v) ||
-e.Empl_Name.toLowerCase().includes(v)
+e.EMPLID.includes(v) ||
+e.NAME.toLowerCase().includes(v)
 )
 render(filtered)
 }
