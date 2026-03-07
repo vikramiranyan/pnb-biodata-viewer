@@ -1,5 +1,5 @@
 let data = []
-const sheetURL = "PASTE_CSV_LINK_HERE"
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQoD4Qaf0dFYHPHpgrxtAVwxhPH8rptiZJCYoNbrvSNxgbID63bJcrXALvtzkdDApDIXIklfL1Xvll6/pub?output=csv"
 async function loadData(){
 const res = await fetch(sheetURL)
 const text = await res.text()
