@@ -18,6 +18,24 @@ render(data)
 
 }
 
+function applyFilters(){
+
+let zone = document.getElementById("zoneFilter").value
+let circle = document.getElementById("circleFilter").value
+let location = document.getElementById("locationFilter").value
+
+let filtered = data.filter(e=>{
+
+return (!zone || e.Zone===zone) &&
+(!circle || e.Circle===circle) &&
+(!location || e.Location_Name===location)
+
+})
+
+render(filtered)
+
+}
+
 function populateFilters(){
 
 const zones = [...new Set(data.map(d=>d.Zone))]
