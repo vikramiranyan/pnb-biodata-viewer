@@ -18,16 +18,35 @@ render(data)
 
 }
 
+function populateFilters(){
+
+const zones = [...new Set(data.map(d=>d.Zone))]
+const circles = [...new Set(data.map(d=>d.Circle))]
+const locations = [...new Set(data.map(d=>d.Location_Name))]
+
+const zoneSelect = document.getElementById("zoneFilter")
+const circleSelect = document.getElementById("circleFilter")
+const locationSelect = document.getElementById("locationFilter")
+
+zones.forEach(z=>{
+zoneSelect.innerHTML += `<option value="${z}">${z}</option>`
+})
+
+circles.forEach(c=>{
+circleSelect.innerHTML += `<option value="${c}">${c}</option>`
+})
+
+locations.forEach(l=>{
+locationSelect.innerHTML += `<option value="${l}">${l}</option>`
+})
+
+}
+
 function render(list){
-
 let tbody = document.querySelector("#table tbody")
-
 tbody.innerHTML=""
-
 list.forEach(e=>{
-
 let tr = document.createElement("tr")
-
 tr.innerHTML=`
 
 <td>${e.EMPLID}</td>
