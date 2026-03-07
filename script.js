@@ -15,7 +15,7 @@ skipEmptyLines:true
 data = parsed.data
 
 render(data)
-
+populateFilters()
 }
 
 function applyFilters(){
