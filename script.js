@@ -57,16 +57,13 @@ tbody.innerHTML=""
 list.forEach(e=>{
 let tr = document.createElement("tr")
 tr.innerHTML=`
-
 <td>${e.EMPLID}</td>
 <td>${e.NAME}</td>
 <td>${e.ZONE}</td>
 <td>${e.CIRCLE}</td>
 <td>${e.GRADE}</td>
 <td>
-<button onclick="viewPDF('${e.EMPLID}')">
-View
-</button>
+<button onclick="viewPDF('${e.EMPLID}')">View</button>
 </td>
 tbody.appendChild(tr)
 })
