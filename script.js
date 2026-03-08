@@ -32,7 +32,7 @@ function populateFilters(){
 
 const zones = [...new Set(data.map(d=>d.ZONE).filter(Boolean))]
 const circles = [...new Set(data.map(d=>d.CIRCLE).filter(Boolean))]
-const locations = [...new Set(data.map(d=>d.LOC_NAME).filter(Boolean))]
+const locations = [...new Set(data.map(d=>d.DEPT_NAME).filter(Boolean))]
 
 const zoneSelect = document.getElementById("zoneFilter")
 const circleSelect = document.getElementById("circleFilter")
@@ -61,7 +61,7 @@ let location = document.getElementById("locationFilter").value
 let filtered = data.filter(e =>
 (!zone || e.ZONE === zone) &&
 (!circle || e.CIRCLE === circle) &&
-(!location || e.LOC_NAME === location)
+(!location || e.DEPT_NAME === location)
 )
 
 render(filtered)
@@ -82,8 +82,11 @@ tr.innerHTML = `
 <td>${e.NAME}</td>
 <td>${e.ZONE}</td>
 <td>${e.CIRCLE}</td>
+<td>${e.DEPT_NAME}</td>
 <td>${e.GRADE}</td>
+<td>${e.DESIGNATION}</td>
 <td><button onclick="viewPDF('${e.EMPLID}')">View</button></td>
+`
 `
 
 tbody.appendChild(tr)
