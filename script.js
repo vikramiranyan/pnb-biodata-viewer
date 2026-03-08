@@ -12,29 +12,26 @@ header:true,
 skipEmptyLines:true
 })
 
-data = parsed.data
+data = parsed.data.map(r => ({
+ZONE: r.ZONE?.trim(),
+CIRCLE: r.CIRCLE?.trim(),
+LOCATION: r.LOCATION?.trim(),
+LOC_NAME: r.LOC_NAME?.trim(),
+EMPLID: r.EMPLID?.trim(),
+NAME: r.NAME?.trim(),
+GRADE: r.GRADE?.trim()
+}))
+
 render(data)
 populateFilters()
-}
 
-function applyFilters(){
-let zone = document.getElementById("zoneFilter").value
-let circle = document.getElementById("circleFilter").value
-let location = document.getElementById("locationFilter").value
-
-let filtered = data.filter(e=>{
-
-return (!zone || e.ZONE===zone) &&
-(!circle || e.CIRCLE===circle) &&
-(!location || e.LOC_NAME===location)
-})
-render(filtered)
 }
 
 function populateFilters(){
-const zones = [...new Set(data.map(d=>d.ZONE))]
-const circles = [...new Set(data.map(d=>d.CIRCLE))]
-const locations = [...new Set(data.map(d=>d.LOC_NAME))]
+
+const zones = [...new Set(data.map(d=>d.ZONE).filter(Boolean))]
+const circles = [...new Set(data.map(d=>d.CIRCLE).filter(Boolean))]
+const locations = [...new Set(data.map(d=>d.LOC_NAME).filter(Boolean))]
 
 const zoneSelect = document.getElementById("zoneFilter")
 const circleSelect = document.getElementById("circleFilter")
@@ -43,43 +40,75 @@ const locationSelect = document.getElementById("locationFilter")
 zones.forEach(z=>{
 zoneSelect.innerHTML += `<option value="${z}">${z}</option>`
 })
+
 circles.forEach(c=>{
 circleSelect.innerHTML += `<option value="${c}">${c}</option>`
 })
+
 locations.forEach(l=>{
 locationSelect.innerHTML += `<option value="${l}">${l}</option>`
 })
+
+}
+
+function applyFilters(){
+
+let zone = document.getElementById("zoneFilter").value
+let circle = document.getElementById("circleFilter").value
+let location = document.getElementById("locationFilter").value
+
+let filtered = data.filter(e =>
+(!zone || e.ZONE === zone) &&
+(!circle || e.CIRCLE === circle) &&
+(!location || e.LOC_NAME === location)
+)
+
+render(filtered)
+
 }
 
 function render(list){
+
 let tbody = document.querySelector("#table tbody")
 tbody.innerHTML=""
+
 list.forEach(e=>{
+
 let tr = document.createElement("tr")
-tr.innerHTML=`
+
+tr.innerHTML = `
 <td>${e.EMPLID}</td>
 <td>${e.NAME}</td>
 <td>${e.ZONE}</td>
 <td>${e.CIRCLE}</td>
 <td>${e.GRADE}</td>
-<td>
-<button onclick="viewPDF('${e.EMPLID}')">View</button>
-</td>
+<td><button onclick="viewPDF('${e.EMPLID}')">View</button></td>
+`
+
 tbody.appendChild(tr)
+
 })
+
 }
 
 function search(){
+
 let v = document.getElementById("search").value.toLowerCase()
+
 let filtered = data.filter(e =>
-e.EMPLID.includes(v) ||
-e.NAME.toLowerCase().includes(v)
+(e.EMPLID && e.EMPLID.includes(v)) ||
+(e.NAME && e.NAME.toLowerCase().includes(v))
 )
+
 render(filtered)
+
 }
 
 function viewPDF(id){
+
 const url = `https://drive.google.com/file/d/${id}/preview`
 document.getElementById("pdfviewer").src = url
+
 }
+
 loadData()
