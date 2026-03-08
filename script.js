@@ -24,9 +24,9 @@ let location = document.getElementById("locationFilter").value
 
 let filtered = data.filter(e=>{
 
-return (!zone || e.Zone===zone) &&
-(!circle || e.Circle===circle) &&
-(!location || e.Location_Name===location)
+return (!zone || e.ZONE===zone) &&
+(!circle || e.CIRCLE===circle) &&
+(!location || e.LOC_NAME===location)
 })
 render(filtered)
 }
