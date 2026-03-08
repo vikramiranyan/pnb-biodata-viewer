@@ -13,13 +13,11 @@ skipEmptyLines:true
 })
 
 data = parsed.data
-
 render(data)
 populateFilters()
 }
 
 function applyFilters(){
-
 let zone = document.getElementById("zoneFilter").value
 let circle = document.getElementById("circleFilter").value
 let location = document.getElementById("locationFilter").value
@@ -29,15 +27,11 @@ let filtered = data.filter(e=>{
 return (!zone || e.Zone===zone) &&
 (!circle || e.Circle===circle) &&
 (!location || e.Location_Name===location)
-
 })
-
 render(filtered)
-
 }
 
 function populateFilters(){
-
 const zones = [...new Set(data.map(d=>d.Zone))]
 const circles = [...new Set(data.map(d=>d.Circle))]
 const locations = [...new Set(data.map(d=>d.Location_Name))]
@@ -49,15 +43,12 @@ const locationSelect = document.getElementById("locationFilter")
 zones.forEach(z=>{
 zoneSelect.innerHTML += `<option value="${z}">${z}</option>`
 })
-
 circles.forEach(c=>{
 circleSelect.innerHTML += `<option value="${c}">${c}</option>`
 })
-
 locations.forEach(l=>{
 locationSelect.innerHTML += `<option value="${l}">${l}</option>`
 })
-
 }
 
 function render(list){
@@ -69,42 +60,29 @@ tr.innerHTML=`
 
 <td>${e.EMPLID}</td>
 <td>${e.NAME}</td>
-<td>${e.Zone}</td>
-<td>${e.Circle}</td>
+<td>${e.ZONE}</td>
+<td>${e.CIRCLE}</td>
 <td>${e.GRADE}</td>
-
 <td>
 <button onclick="viewPDF('${e.EMPLID}')">
 View
 </button>
 </td>
-`
-
 tbody.appendChild(tr)
-
 })
-
 }
 
 function search(){
-
 let v = document.getElementById("search").value.toLowerCase()
-
 let filtered = data.filter(e =>
 e.EMPLID.includes(v) ||
 e.NAME.toLowerCase().includes(v)
 )
-
 render(filtered)
-
 }
 
 function viewPDF(id){
-
 const url = `https://drive.google.com/file/d/${id}/preview`
-
 document.getElementById("pdfviewer").src = url
-
 }
-
 loadData()
