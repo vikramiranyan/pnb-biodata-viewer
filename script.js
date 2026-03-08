@@ -86,6 +86,7 @@ tr.innerHTML = `
 <td>${e.GRADE}</td>
 <td>${e.DESIGNATION}</td>
 <td><button onclick="viewPDF('${e.EMPLID}')">View</button></td>
+`
 
 tbody.appendChild(tr)
 
