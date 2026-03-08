@@ -15,11 +15,12 @@ skipEmptyLines:true
 data = parsed.data.map(r => ({
 ZONE: r.ZONE?.trim(),
 CIRCLE: r.CIRCLE?.trim(),
-LOCATION: r.LOCATION?.trim(),
-LOC_NAME: r.LOC_NAME?.trim(),
+DEPTID: r.DEPTID?.trim(),
+DEPT_NAME: r.DEPT_NAME?.trim(),
 EMPLID: r.EMPLID?.trim(),
 NAME: r.NAME?.trim(),
-GRADE: r.GRADE?.trim()
+GRADE: r.GRADE?.trim(),
+DESIGNATION: r.DESIGNATION?.trim()
 }))
 
 render(data)
