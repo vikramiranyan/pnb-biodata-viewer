@@ -32,9 +32,9 @@ render(filtered)
 }
 
 function populateFilters(){
-const zones = [...new Set(data.map(d=>d.Zone))]
-const circles = [...new Set(data.map(d=>d.Circle))]
-const locations = [...new Set(data.map(d=>d.Location_Name))]
+const zones = [...new Set(data.map(d=>d.ZONE))]
+const circles = [...new Set(data.map(d=>d.CIRCLE))]
+const locations = [...new Set(data.map(d=>d.LOC_NAME))]
 
 const zoneSelect = document.getElementById("zoneFilter")
 const circleSelect = document.getElementById("circleFilter")
