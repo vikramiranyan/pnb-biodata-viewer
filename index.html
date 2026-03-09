@@ -1,110 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>PNB Biodata Viewer</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{
-font-family:Arial;
-background:#f5f6fa;
-margin:0;
-padding:0;
-}
+<meta charset="UTF-8">
+<title>PNB BioData Viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.header{
-background:#003366;
-color:white;
-padding:15px;
-font-size:22px;
-text-align:center;
-}
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 
-.searchbox{
-padding:20px;
-text-align:center;
-}
-
-input{
-padding:10px;
-width:300px;
-font-size:16px;
-}
-
-button{
-padding:10px 20px;
-background:#003366;
-color:white;
-border:none;
-cursor:pointer;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
-
-th,td{
-padding:10px;
-border:1px solid #ccc;
-text-align:left;
-}
-
-.viewer{
-height:500px;
-margin-top:20px;
-}
-
-iframe{
-width:100%;
-height:100%;
-border:none;
-}
-</style>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
+
 <body>
-<div class="header">
-PNB Biodata Viewer
+
+<div class="header-banner">
+<h1>PNB - HO: HRD - BioData Viewer 2.0</h1>
 </div>
-<div class="searchbox">
-<input id="search" placeholder="Search Employee ID / Name">
-<button onclick="search()">Search</button>
 
-<br><br>
+<div class="container">
 
-<select id="zoneFilter" onchange="applyFilters()">
-<option value="">All Zones</option>
+<div class="card">
+
+<button onclick="resetFilters()">Clear Filters</button>
+
+<div class="dropdowns">
+
+<label>Zone:</label>
+<select id="zoneSelect">
+<option value="">--Select Zone--</option>
 </select>
 
-<select id="circleFilter" onchange="applyFilters()">
-<option value="">All Circles</option>
+<label>Circle:</label>
+<select id="circleSelect">
+<option value="">--Select Circle--</option>
 </select>
 
-<select id="locationFilter" onchange="applyFilters()">
-<option value="">All Locations</option>
+<label>DeptID:</label>
+<select id="deptIdSelect">
+<option value="">--Select DeptID--</option>
+</select>
+
+<label>Dept Name:</label>
+<select id="deptNameSelect">
+<option value="">--Select Dept Name--</option>
 </select>
 
 </div>
-<table id="table">
+
+<div class="search-bar">
+
+<label>EmplID:</label>
+<input type="text" id="idSearch" placeholder="Enter EmplID">
+
+<label>Empl_Name:</label>
+<input type="text" id="nameSearch" placeholder="Enter Name">
+
+</div>
+
+<table id="resultTable">
+
 <thead>
 <tr>
-<th>EMPLID</th>
-<th>Name</th>
 <th>Zone</th>
 <th>Circle</th>
-<th>Department</th>
+<th>DeptID</th>
+<th>Dept Name</th>
+<th>EmplID</th>
+<th>Empl_Name</th>
 <th>Grade</th>
 <th>Designation</th>
 <th>View</th>
 </tr>
 </thead>
-<tbody>
-</tbody>
+
+<tbody></tbody>
+
 </table>
-<div class="viewer">
-<iframe id="pdfviewer"></iframe>
+
 </div>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+</div>
+
+<div class="footer-banner">
+<div class="footer-team">Developed & Maintained by PNB HRMS Team</div>
+</div>
+
 <script src="script.js"></script>
+
 </body>
 </html>
