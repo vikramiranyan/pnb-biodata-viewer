@@ -1,117 +1,171 @@
-let data = []
+let excelData = [];
 
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQoD4Qaf0dFYHPHpgrxtAVwxhPH8rptiZJCYoNbrvSNxgbID63bJcrXALvtzkdDApDIXIklfL1Xvll6/pub?output=csv"
+const sheetURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQoD4Qaf0dFYHPHpgrxtAVwxhPH8rptiZJCYoNbrvSNxgbID63bJcrXALvtzkdDApDIXIklfL1Xvll6/pub?output=csv";
 
-async function loadData(){
+async function loadSheetData(){
 
-const res = await fetch(sheetURL)
-const text = await res.text()
+const res = await fetch(sheetURL);
+const text = await res.text();
 
-const parsed = Papa.parse(text,{
-header:true,
-skipEmptyLines:true
-})
+const results = Papa.parse(text,{header:true,skipEmptyLines:true});
 
-data = parsed.data.map(r => ({
-ZONE: r.ZONE?.trim(),
-CIRCLE: r.CIRCLE?.trim(),
-DEPTID: r.DEPTID?.trim(),
-DEPT_NAME: r.DEPT_NAME?.trim(),
-EMPLID: r.EMPLID?.trim(),
-NAME: r.NAME?.trim(),
-GRADE: r.GRADE?.trim(),
-DESIGNATION: r.DESIGNATION?.trim()
-}))
+excelData = results.data.map(row => ({
+Zone: row["ZONE"]?.trim() || "",
+Circle: row["CIRCLE"]?.trim() || "",
+DeptID: row["DEPTID"]?.trim() || "",
+Dept_Name: row["DEPT_NAME"]?.trim() || "",
+EmplID: row["EMPLID"]?.trim() || "",
+Empl_Name: row["NAME"]?.trim() || "",
+Grade: row["GRADE"]?.trim() || "",
+Designation: row["DESIGNATION"]?.trim() || ""
+}));
 
-render(data)
-populateFilters()
+populateDropdown('zoneSelect',[...new Set(excelData.map(r=>r.Zone))]);
 
 }
 
-function populateFilters(){
+function populateDropdown(id,values){
 
-const zones = [...new Set(data.map(d=>d.ZONE).filter(Boolean))]
-const circles = [...new Set(data.map(d=>d.CIRCLE).filter(Boolean))]
-const locations = [...new Set(data.map(d=>d.DEPT_NAME).filter(Boolean))]
+const select=document.getElementById(id);
 
-const zoneSelect = document.getElementById("zoneFilter")
-const circleSelect = document.getElementById("circleFilter")
-const locationSelect = document.getElementById("locationFilter")
+select.innerHTML='<option value="">--Select--</option>';
 
-zones.forEach(z=>{
-zoneSelect.innerHTML += `<option value="${z}">${z}</option>`
-})
+values.filter(Boolean).sort().forEach(v=>{
 
-circles.forEach(c=>{
-circleSelect.innerHTML += `<option value="${c}">${c}</option>`
-})
+const opt=document.createElement("option");
 
-locations.forEach(l=>{
-locationSelect.innerHTML += `<option value="${l}">${l}</option>`
-})
+opt.value=v;
+opt.textContent=v;
+
+select.appendChild(opt);
+
+});
 
 }
 
-function applyFilters(){
+function displayTable(data){
 
-let zone = document.getElementById("zoneFilter").value
-let circle = document.getElementById("circleFilter").value
-let location = document.getElementById("locationFilter").value
+const tbody=document.querySelector("#resultTable tbody");
 
-let filtered = data.filter(e =>
-(!zone || e.ZONE === zone) &&
-(!circle || e.CIRCLE === circle) &&
-(!location || e.DEPT_NAME === location)
-)
+tbody.innerHTML="";
 
-render(filtered)
+data.sort((a,b)=>{
 
-}
+if(a.Grade>b.Grade) return -1;
+if(a.Grade<b.Grade) return 1;
 
-function render(list){
+return a.Empl_Name.localeCompare(b.Empl_Name);
 
-let tbody = document.querySelector("#table tbody")
-tbody.innerHTML=""
+});
 
-list.forEach(e=>{
+data.forEach(r=>{
 
-let tr = document.createElement("tr")
+const tr=document.createElement("tr");
 
-tr.innerHTML = `
-<td>${e.EMPLID}</td>
-<td>${e.NAME}</td>
-<td>${e.ZONE}</td>
-<td>${e.CIRCLE}</td>
-<td>${e.DEPT_NAME}</td>
-<td>${e.GRADE}</td>
-<td>${e.DESIGNATION}</td>
-<td><button onclick="viewPDF('${e.EMPLID}')">View</button></td>
-`
+tr.innerHTML=`
+<td>${r.Zone}</td>
+<td>${r.Circle}</td>
+<td>${r.DeptID}</td>
+<td>${r.Dept_Name}</td>
+<td>${r.EmplID}</td>
+<td>${r.Empl_Name}</td>
+<td>${r.Grade}</td>
+<td>${r.Designation}</td>
+<td><button onclick="viewPDF('${r.EmplID}')">View</button></td>
+`;
 
-tbody.appendChild(tr)
+tbody.appendChild(tr);
 
-})
+});
 
 }
 
-function search(){
+function resetFilters(){
 
-let v = document.getElementById("search").value.toLowerCase()
+['zoneSelect','circleSelect','deptIdSelect','deptNameSelect','idSearch','nameSearch']
+.forEach(id=>{
 
-let filtered = data.filter(e =>
-(e.EMPLID && e.EMPLID.includes(v)) ||
-(e.NAME && e.NAME.toLowerCase().includes(v))
-)
+const el=document.getElementById(id);
 
-render(filtered)
+if(el.tagName==="SELECT") el.value="";
+else el.value="";
+
+});
+
+populateDropdown('zoneSelect',[...new Set(excelData.map(r=>r.Zone))]);
+
+document.querySelector("#resultTable tbody").innerHTML="";
+
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+loadSheetData();
+
+document.getElementById("zoneSelect").addEventListener("change",()=>{
+
+const zone=document.getElementById("zoneSelect").value;
+
+const filtered=excelData.filter(r=>r.Zone===zone);
+
+populateDropdown('circleSelect',[...new Set(filtered.map(r=>r.Circle))]);
+
+document.querySelector("#resultTable tbody").innerHTML="";
+
+});
+
+document.getElementById("circleSelect").addEventListener("change",()=>{
+
+const zone=document.getElementById("zoneSelect").value;
+const circle=document.getElementById("circleSelect").value;
+
+const filtered=excelData.filter(r=>r.Zone===zone && r.Circle===circle);
+
+const depts=[...new Map(filtered.map(r=>[r.DeptID,r.Dept_Name])).entries()];
+
+populateDropdown('deptIdSelect',depts.map(d=>d[0]));
+populateDropdown('deptNameSelect',depts.map(d=>d[1]));
+
+});
+
+document.getElementById("deptIdSelect").addEventListener("change",filterAndShow);
+document.getElementById("deptNameSelect").addEventListener("change",filterAndShow);
+document.getElementById("idSearch").addEventListener("keyup",filterAndShow);
+document.getElementById("nameSearch").addEventListener("keyup",filterAndShow);
+
+});
+
+function filterAndShow(){
+
+const zone=document.getElementById("zoneSelect").value;
+const circle=document.getElementById("circleSelect").value;
+const deptID=document.getElementById("deptIdSelect").value;
+const deptName=document.getElementById("deptNameSelect").value;
+const idSearch=document.getElementById("idSearch").value.toLowerCase();
+const nameSearch=document.getElementById("nameSearch").value.toLowerCase();
+
+const filtered=excelData.filter(r=>
+
+(!zone || r.Zone===zone) &&
+(!circle || r.Circle===circle) &&
+(!deptID || r.DeptID===deptID) &&
+(!deptName || r.Dept_Name===deptName) &&
+(!idSearch || r.EmplID.toLowerCase().includes(idSearch)) &&
+(!nameSearch || r.Empl_Name.toLowerCase().includes(nameSearch))
+
+);
+
+displayTable(filtered);
 
 }
 
 function viewPDF(id){
 
-const url = `https://drive.google.com/file/d/${id}/preview`
-document.getElementById("pdfviewer").src = url
+const folder="1fslZvZqKUg47PUsHhXmIntN9vD6mbVRi";
+
+const url=`https://drive.google.com/drive/search?q=${id}.pdf`;
+
+window.open(url,'_blank');
 
 }
-
-loadData()
