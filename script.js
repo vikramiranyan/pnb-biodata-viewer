@@ -158,7 +158,7 @@ displayTable(filtered);
 }
 
 async function viewPDF(id){
-const api = "YOUR_APPS_SCRIPT_WEBAPP_URL";
+const api = "https://script.google.com/macros/s/AKfycbzg5862I6HU30-qyhIuIHOOQ2wIHwFR90I17OO0dn2KItWUAsAOP3xHNpMV_acaDmHsig/exec";
 const res = await fetch(`${api}?pdf=${id}`);
 const pdfUrl = await res.text();
 if(pdfUrl){
