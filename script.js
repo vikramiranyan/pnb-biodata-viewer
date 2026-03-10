@@ -161,11 +161,11 @@ displayTable(filtered);
 }
 
 function viewPDF(id){
-
 const folder="1fslZvZqKUg47PUsHhXmIntN9vD6mbVRi";
-
-const url=`https://drive.google.com/drive/search?q=${id}.pdf`;
-
-window.open(url,'_blank');
-
+const url=`https://drive.google.com/file/d/${id}/preview`;
+document.getElementById("pdfFrame").src=url;
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
 }
