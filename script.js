@@ -153,14 +153,17 @@ const filtered=excelData.filter(r=>
 (!deptName || r.Dept_Name===deptName) &&
 (!idSearch || r.EmplID.toLowerCase().includes(idSearch)) &&
 (!nameSearch || r.Empl_Name.toLowerCase().includes(nameSearch))
-
 );
-
 displayTable(filtered);
-
 }
 
-function viewPDF(id){
-const url = `https://drive.google.com/file/d/${id}/preview`;
-window.open(url,"_blank");
+async function viewPDF(id){
+const api = "YOUR_APPS_SCRIPT_WEBAPP_URL";
+const res = await fetch(`${api}?pdf=${id}`);
+const pdfUrl = await res.text();
+if(pdfUrl){
+window.open(pdfUrl,"_blank");
+}else{
+alert("PDF not found");
+}
 }
