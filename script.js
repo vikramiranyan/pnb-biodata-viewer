@@ -161,7 +161,6 @@ displayTable(filtered);
 }
 
 function viewPDF(id){
-const folderId = "1fslZvZqKUg47PUsHhXmIntN9vD6mbVRi";
-const url = `https://drive.google.com/drive/folders/${folderId}?q=${id}.pdf`;
+const url = `https://drive.google.com/file/d/${id}/preview`;
 window.open(url,"_blank");
 }
