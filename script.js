@@ -157,13 +157,7 @@ const filtered=excelData.filter(r=>
 displayTable(filtered);
 }
 
-async function viewPDF(id){
+function viewPDF(id){
 const api="https://script.google.com/macros/s/AKfycbzg5862I6HU30-qyhIuIHOOQ2wIHwFR90I17OO0dn2KItWUAsAOP3xHNpMV_acaDmHsig/exec";
-const res = await fetch(`${api}?pdf=${id}`);
-const pdfUrl = await res.text();
-if(pdfUrl){
-window.open(pdfUrl,"_blank");
-}else{
-alert("PDF not found");
-}
+window.open(`${api}?pdf=${id}`,"_blank");
 }
