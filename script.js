@@ -162,10 +162,7 @@ const api="https://script.google.com/macros/s/AKfycbzg5862I6HU30-qyhIuIHOOQ2wIHw
 const res = await fetch(`${api}?pdf=${id}`);
 const pdfUrl = await res.text();
 if(pdfUrl){
-// extract fileId from returned link
-const fileId = pdfUrl.split("id=")[1];
-// open Google Drive viewer
-window.open(`https://drive.google.com/file/d/${fileId}/preview`, "_blank");
+window.open(pdfUrl,"_blank");
 }else{
 alert("PDF not found");
 }
