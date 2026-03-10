@@ -158,11 +158,14 @@ displayTable(filtered);
 }
 
 async function viewPDF(id){
-const api = "https://script.google.com/macros/s/AKfycbzg5862I6HU30-qyhIuIHOOQ2wIHwFR90I17OO0dn2KItWUAsAOP3xHNpMV_acaDmHsig/exec";
+const api="https://script.google.com/macros/s/AKfycbzg5862I6HU30-qyhIuIHOOQ2wIHwFR90I17OO0dn2KItWUAsAOP3xHNpMV_acaDmHsig/exec";
 const res = await fetch(`${api}?pdf=${id}`);
 const pdfUrl = await res.text();
 if(pdfUrl){
-window.open(pdfUrl,"_blank");
+// extract fileId from returned link
+const fileId = pdfUrl.split("id=")[1];
+// open Google Drive viewer
+window.open(`https://drive.google.com/file/d/${fileId}/preview`, "_blank");
 }else{
 alert("PDF not found");
 }
