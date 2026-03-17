@@ -115,26 +115,51 @@ document.querySelector("#resultTable tbody").innerHTML="";
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-if(userEmail){
-// Save to browser
-localStorage.setItem("userEmail", userEmail);
-localStorage.setItem("userRole", userRole);
-// Show
-document.getElementById("userInfo").innerHTML =
-`👤 Logged in as: <b>${userEmail}</b> (${userRole})`;
-}else{
-// Try to get from storage
-const storedEmail = localStorage.getItem("userEmail");
-const storedRole = localStorage.getItem("userRole");
-if(storedEmail){
-document.getElementById("userInfo").innerHTML =
-`👤 Logged in as: <b>${storedEmail}</b> (${storedRole})`;
-}else{
-document.getElementById("userInfo").innerHTML =
-`⚠️ Not logged in`;
+
+const token = getQueryParam("token");
+
+if(!token){
+
+document.body.innerHTML = `
+<h2 style="text-align:center;margin-top:100px;color:red;">
+🔐 Unauthorized Access<br>
+Please login via secure portal
+</h2>
+`;
+return;
 }
+
+const user = decodeToken(token);
+
+if(!user){
+
+document.body.innerHTML = `
+<h2 style="text-align:center;margin-top:100px;color:red;">
+❌ Invalid Session
+</h2>
+`;
+return;
 }
-  
+
+// OPTIONAL: Expiry check (30 mins)
+const now = new Date().getTime();
+if(now - user.time > 30 * 60 * 1000){
+
+document.body.innerHTML = `
+<h2 style="text-align:center;margin-top:100px;color:red;">
+⏳ Session Expired<br>Please login again
+</h2>
+`;
+return;
+}
+
+// Save session
+localStorage.setItem("token", token);
+
+// Show user
+document.getElementById("userInfo").innerHTML =
+`👤 Logged in as: <b>${user.email}</b> (${user.role})`;
+
 loadSheetData();
 document.getElementById("zoneSelect").addEventListener("change",()=>{
 const zone=document.getElementById("zoneSelect").value;
