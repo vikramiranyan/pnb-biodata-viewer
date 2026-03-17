@@ -24,22 +24,23 @@ Designation: row["DESIGNATION"]?.trim() || ""
 populateDropdown('zoneSelect',[...new Set(excelData.map(r=>r.Zone))]);
 
 }
+function getQueryParam(name){
+const urlParams = new URLSearchParams(window.location.search);
+return urlParams.get(name);
+}
+
+const userEmail = getQueryParam("email");
+const userRole = getQueryParam("role");
+
 
 function populateDropdown(id,values){
-
 const select=document.getElementById(id);
-
 select.innerHTML='<option value="">--Select--</option>';
-
 values.filter(Boolean).sort().forEach(v=>{
-
 const opt=document.createElement("option");
-
 opt.value=v;
 opt.textContent=v;
-
 select.appendChild(opt);
-
 });
 
 }
@@ -100,19 +101,16 @@ document.querySelector("#resultTable tbody").innerHTML="";
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-
+if(userEmail){
+document.getElementById("userInfo").innerHTML =
+`Logged in as: <b>${userEmail}</b> (${userRole})`;
+}
 loadSheetData();
-
 document.getElementById("zoneSelect").addEventListener("change",()=>{
-
 const zone=document.getElementById("zoneSelect").value;
-
 const filtered=excelData.filter(r=>r.Zone===zone);
-
 populateDropdown('circleSelect',[...new Set(filtered.map(r=>r.Circle))]);
-
 document.querySelector("#resultTable tbody").innerHTML="";
-
 });
 
 document.getElementById("circleSelect").addEventListener("change",()=>{
