@@ -3,6 +3,20 @@ let excelData = [];
 const sheetURL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vQoD4Qaf0dFYHPHpgrxtAVwxhPH8rptiZJCYoNbrvSNxgbID63bJcrXALvtzkdDApDIXIklfL1Xvll6/pub?output=csv";
 
+function decodeToken(token){
+try{
+const decoded = atob(token);
+const parts = decoded.split("|");
+return {
+email: parts[0],
+role: parts[1],
+time: parseInt(parts[2])
+};
+}catch{
+return null;
+}
+}
+
 async function loadSheetData(){
 
 const res = await fetch(sheetURL);
