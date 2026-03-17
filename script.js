@@ -104,7 +104,10 @@ document.addEventListener("DOMContentLoaded",()=>{
 if(userEmail){
 document.getElementById("userInfo").innerHTML =
 `Logged in as: <b>${userEmail}</b> (${userRole})`;
+}else{
+document.getElementById("userInfo").style.display="none";
 }
+  
 loadSheetData();
 document.getElementById("zoneSelect").addEventListener("change",()=>{
 const zone=document.getElementById("zoneSelect").value;
