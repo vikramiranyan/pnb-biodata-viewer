@@ -16,6 +16,14 @@ border-bottom-left-radius:20px;
 border-bottom-right-radius:20px;
 }
 
+.user-info{
+text-align:right;
+font-size:14px;
+margin-bottom:10px;
+color:#333;
+font-weight:500;
+}
+
 /* Main container */
 .container{
 width:80%;
