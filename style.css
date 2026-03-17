@@ -9,11 +9,11 @@ background:linear-gradient(to bottom right,#f4e0c3,#e9cfa7);
 background:linear-gradient(90deg,#8b0d3d,#ff6f00);
 color:white;
 text-align:center;
-padding:30px 20px;
-font-size:28px;
+padding:15px 10px;   /* reduced height */
+font-size:22px;      /* slightly smaller */
 font-weight:600;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
+border-bottom-left-radius:20px;
+border-bottom-right-radius:20px;
 }
 
 /* Main container */
