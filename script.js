@@ -102,10 +102,23 @@ document.querySelector("#resultTable tbody").innerHTML="";
 
 document.addEventListener("DOMContentLoaded",()=>{
 if(userEmail){
+// Save to browser
+localStorage.setItem("userEmail", userEmail);
+localStorage.setItem("userRole", userRole);
+// Show
 document.getElementById("userInfo").innerHTML =
-`Logged in as: <b>${userEmail}</b> (${userRole})`;
+`👤 Logged in as: <b>${userEmail}</b> (${userRole})`;
 }else{
-document.getElementById("userInfo").style.display="none";
+// Try to get from storage
+const storedEmail = localStorage.getItem("userEmail");
+const storedRole = localStorage.getItem("userRole");
+if(storedEmail){
+document.getElementById("userInfo").innerHTML =
+`👤 Logged in as: <b>${storedEmail}</b> (${storedRole})`;
+}else{
+document.getElementById("userInfo").innerHTML =
+`⚠️ Not logged in`;
+}
 }
   
 loadSheetData();
