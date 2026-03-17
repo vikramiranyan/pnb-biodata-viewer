@@ -43,6 +43,13 @@ const urlParams = new URLSearchParams(window.location.search);
 return urlParams.get(name);
 }
 
+// ✅ ADD HERE
+let token = getQueryParam("token");
+
+if(!token){
+token = localStorage.getItem("token");
+}
+
 const userEmail = getQueryParam("email");
 const userRole = getQueryParam("role");
 
