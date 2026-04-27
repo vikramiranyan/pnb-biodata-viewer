@@ -19,7 +19,15 @@
 <div class="card">
 <div id="userInfo" class="user-info"></div>
 <button onclick="resetFilters()">Clear Filters</button>
-
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none; margin-bottom:20px;">
+  <h3>🧑‍💼 Admin Panel</h3>
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+    <input type="file" id="excelUpload" accept=".csv,.xlsx">
+    <button onclick="uploadExcel()">Upload Biodata</button>
+    <button onclick="checkSystem()">System Status</button>
+  </div>
+</div>
 <div class="dropdowns">
 
 <label>Zone:</label>
