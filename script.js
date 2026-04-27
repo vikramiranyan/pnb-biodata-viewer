@@ -166,7 +166,7 @@ localStorage.setItem("token", token);
 // Show user
 document.getElementById("userInfo").innerHTML =
 `👤 Logged in as: <b>${user.email}</b> (${user.role})`;
-if(user.role === "ADMIN"){
+if(user.role === "ADMIN" && mode === "admin"){
   document.getElementById("adminPanel").style.display = "block";
 }
 loadSheetData();
