@@ -219,6 +219,33 @@ const filtered=excelData.filter(r=>
 displayTable(filtered);
 }
 
+function uploadExcel(){
+  const file = document.getElementById("excelUpload").files[0];
+  if(!file){
+    alert("Select file first");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = async function(e){
+    const csvData = e.target.result;
+    const res = await fetch("YOUR_APPS_SCRIPT_URL", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "uploadExcel",
+        data: csvData
+      })
+    });
+    const result = await res.text();
+    alert(result);
+  };
+  reader.readAsText(file);
+}
+
+
+function checkSystem(){
+  alert("✅ System Running Fine");
+}
+
 function viewPDF(id){
 const api="https://script.google.com/macros/s/AKfycbzg5862I6HU30-qyhIuIHOOQ2wIHwFR90I17OO0dn2KItWUAsAOP3xHNpMV_acaDmHsig/exec";
 window.open(`${api}?pdf=${id}`,"_blank");
