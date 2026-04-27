@@ -228,7 +228,7 @@ function uploadExcel(){
   const reader = new FileReader();
   reader.onload = async function(e){
     const csvData = e.target.result;
-    const res = await fetch("YOUR_APPS_SCRIPT_URL", {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbzg5862I6HU30-qyhIuIHOOQ2wIHwFR90I17OO0dn2KItWUAsAOP3xHNpMV_acaDmHsig/exec", {
       method: "POST",
       body: JSON.stringify({
         action: "uploadExcel",
